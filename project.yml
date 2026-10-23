@@ -1,0 +1,43 @@
+name: FlagFlipper
+options:
+  bundleIdPrefix: me.romashka
+  deploymentTarget:
+    iOS: '17.0'
+settings:
+  base:
+    ARCHS: arm64e
+    ONLY_ACTIVE_ARCH: YES
+    SWIFT_VERSION: '5.0'
+    TARGETED_DEVICE_FAMILY: '1,2'
+    CODE_SIGN_STYLE: Manual
+    LIBRARY_SEARCH_PATHS: '$(inherited) $(SRCROOT)/Vendor/Lara/lib'
+    LD_RUNPATH_SEARCH_PATHS: '$(inherited) @executable_path/Frameworks'
+    HEADER_SEARCH_PATHS: '$(inherited) $(SRCROOT)/Vendor/Lara/headers $(SRCROOT)/Vendor/Lara/choma $(SRCROOT)/Vendor/Lara/kexploit $(SRCROOT)/Vendor/Lara/kexploit/pe'
+targets:
+  FlagFlipper:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+        excludes:
+          - Info.plist
+      - path: Vendor/Lara/kexploit/darksword.m
+      - path: Vendor/Lara/kexploit/offsets.m
+      - path: Vendor/Lara/kexploit/utils.m
+      - path: Vendor/Lara/kexploit/pe/sbx.m
+      - path: Vendor/Lara/kexploit/pe/apfs.m
+      - path: Vendor/Lara/kexploit/pe/vnode.m
+      - path: Vendor/Lara/kexploit/pe/vfs.m
+    dependencies:
+      - framework: Vendor/Lara/lib/libxpf.dylib
+        embed: true
+      - framework: Vendor/Lara/lib/libgrabkernel2.dylib
+        embed: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: me.romashka.FlagFlipper
+        PRODUCT_NAME: FlagFlipper
+        INFOPLIST_FILE: App/Info.plist
+        SWIFT_OBJC_BRIDGING_HEADER: App/BridgingHeader.h
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
